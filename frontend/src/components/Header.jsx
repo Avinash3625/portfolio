@@ -134,7 +134,9 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
-            <div className="bg-gray-900/90 backdrop-blur-md rounded-lg border border-gray-800/50 p-4">
+            <div className="bg-gradient-to-br from-gray-900/30 via-gray-800/20 to-gray-900/30 backdrop-blur-sm rounded-lg border border-gray-600/30 p-4 
+                 shadow-xl shadow-black/50 relative
+                 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-white/5 before:pointer-events-none">
               <div className="flex flex-col space-y-3">
                 {navItems.map((item) => {
                   const sectionName = item.href.replace('#', '');
