@@ -66,9 +66,9 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo/Name */}
           <div className="text-2xl font-bold text-white font-mono">
-            <span className="text-red-500">&lt;</span>
+            <span className="text-red-500">{'<'}</span>
             SAR
-            <span className="text-red-500">/&gt;</span>
+            <span className="text-red-500">{'/>'}</span>
           </div>
 
           {/* Desktop Navigation */}
