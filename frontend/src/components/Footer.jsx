@@ -23,9 +23,9 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="space-y-4">
               <div className="text-2xl font-bold text-white font-mono">
-                <span className="text-red-500">&lt;</span>
+                <span className="text-red-500">{'<'}</span>
                 Seelam Avinash Reddy
-                <span className="text-red-500">/&gt;</span>
+                <span className="text-red-500">{'/>'}</span>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Aspiring Machine Learning Engineer passionate about building intelligent solutions 
