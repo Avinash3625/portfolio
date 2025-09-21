@@ -37,7 +37,9 @@ const Contact = () => {
               <div className="space-y-6">
                 
                 {/* Email */}
-                <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-6 hover:border-red-500/30 transition-all duration-200 group">
+                <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-6 
+                     shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-red-500/20 transition-all duration-200 group relative
+                     before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/8 before:via-transparent before:to-white/3 before:pointer-events-none">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
                       <Mail className="text-red-400" size={20} />
@@ -55,7 +57,9 @@ const Contact = () => {
                 </div>
 
                 {/* Phone */}
-                <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-6 hover:border-red-500/30 transition-all duration-200 group">
+                <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-6 
+                     shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-red-500/20 transition-all duration-200 group relative
+                     before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/8 before:via-transparent before:to-white/3 before:pointer-events-none">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
                       <Phone className="text-red-400" size={20} />
