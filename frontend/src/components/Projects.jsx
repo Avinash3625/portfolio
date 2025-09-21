@@ -119,16 +119,10 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <button className="flex items-center gap-2 bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200">
-                      <Github size={16} />
-                      Code
-                    </button>
-                    <button className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200">
-                      <ExternalLink size={16} />
-                      Demo
-                    </button>
+                  {/* Project Status */}
+                  <div className="flex items-center gap-2 text-gray-500 text-xs">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span>Completed Project</span>
                   </div>
 
                 </div>
