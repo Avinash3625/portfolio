@@ -118,13 +118,15 @@ const Hero = () => {
                      after:absolute after:inset-0 after:rounded-3xl after:bg-gradient-to-t after:from-black/20 after:via-transparent after:to-white/10 after:pointer-events-none">
                   
                   {/* Profile Image */}
-                  <div className="relative mx-auto w-80 h-80 rounded-2xl overflow-hidden border-2 border-gray-800/50">
+                  <div className="relative mx-auto w-80 h-80 rounded-2xl overflow-hidden border border-gray-600/30 
+                       shadow-inner shadow-white/20">
                     <img 
                       src={personalInfo.profileImage} 
                       alt={personalInfo.name}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/20"></div>
                   </div>
 
                   {/* Floating Badge */}
