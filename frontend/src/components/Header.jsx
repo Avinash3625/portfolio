@@ -73,15 +73,27 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                className="text-gray-300 hover:text-red-400 transition-colors duration-200 font-medium"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const sectionName = item.href.replace('#', '');
+              const isActive = activeSection === sectionName;
+              
+              return (
+                <button
+                  key={item.href}
+                  onClick={() => scrollToSection(item.href)}
+                  className={`relative font-medium transition-colors duration-200 ${
+                    isActive 
+                      ? 'text-red-400' 
+                      : 'text-gray-300 hover:text-red-400'
+                  }`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-400 rounded-full"></span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Social Links - Desktop */}
