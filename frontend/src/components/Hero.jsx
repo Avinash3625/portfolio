@@ -112,8 +112,10 @@ const Hero = () => {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
             }`}>
               <div className="relative">
-                {/* Glass Morphism Container */}
-                <div className="relative bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-3xl p-8 shadow-2xl">
+                {/* Reflective Glass Container */}
+                <div className="relative bg-gradient-to-br from-gray-900/30 via-gray-800/20 to-gray-900/30 backdrop-blur-sm border border-gray-700/30 rounded-3xl p-8 shadow-2xl shadow-black/50 
+                     before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-white/5 before:pointer-events-none
+                     after:absolute after:inset-0 after:rounded-3xl after:bg-gradient-to-t after:from-black/20 after:via-transparent after:to-white/10 after:pointer-events-none">
                   
                   {/* Profile Image */}
                   <div className="relative mx-auto w-80 h-80 rounded-2xl overflow-hidden border-2 border-gray-800/50">
