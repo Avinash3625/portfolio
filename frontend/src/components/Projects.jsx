@@ -58,7 +58,9 @@ const Projects = () => {
             {filteredProjects.map((project, index) => (
               <div 
                 key={project.id}
-                className="group bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl overflow-hidden hover:border-gray-700/50 transition-all duration-300 transform hover:-translate-y-2"
+                className="group bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl overflow-hidden 
+                   shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 transform hover:-translate-y-2 relative
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/8 before:via-transparent before:to-white/3 before:pointer-events-none"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 
