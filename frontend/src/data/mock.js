@@ -8,7 +8,7 @@ export const personalInfo = {
   email: "avinashreddy112295@gmail.com",
   linkedin: "linkedin.com/in/avinash-reddy-139380273",
   github: "github.com/Avinash3625",
-  profileImage: "https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc43004cf9ae1acea&v=4", // Will replace with actual uploaded image
+  profileImage: "/api/placeholder/400/400", // Professional headshot - will be replaced with actual uploaded image
   summary: "Aspiring Machine Learning Engineer graduating June 2025 (B.Tech, AI & ML specialization) with hands-on experience in NLP, classification models, and computer vision projects. Built and deployed ML prototypes, collaborated with mentors, and delivered measurable model performance improvements. Seeking entry-level ML/NLP/Data Science roles in product-focused teams."
 };
 
