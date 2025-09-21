@@ -3,7 +3,7 @@
 export const personalInfo = {
   name: "Seelam Avinash Reddy",
   title: "Machine Learning Engineer",
-  location: "Bhopal, Madhya Pradesh",
+  location: "Hyderabad, KPHB",
   phone: "+91 8919689676",
   email: "avinashreddy112295@gmail.com",
   linkedin: "linkedin.com/in/avinash-reddy-139380273",
