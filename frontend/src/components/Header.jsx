@@ -136,15 +136,24 @@ const Header = () => {
           <div className="md:hidden mt-4 pb-4">
             <div className="bg-gray-900/90 backdrop-blur-md rounded-lg border border-gray-800/50 p-4">
               <div className="flex flex-col space-y-3">
-                {navItems.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => scrollToSection(item.href)}
-                    className="text-gray-300 hover:text-red-400 transition-colors duration-200 font-medium text-left py-2"
-                  >
-                    {item.label}
-                  </button>
-                ))}
+                {navItems.map((item) => {
+                  const sectionName = item.href.replace('#', '');
+                  const isActive = activeSection === sectionName;
+                  
+                  return (
+                    <button
+                      key={item.href}
+                      onClick={() => scrollToSection(item.href)}
+                      className={`font-medium text-left py-2 transition-colors duration-200 ${
+                        isActive 
+                          ? 'text-red-400 bg-red-500/10 px-3 rounded-lg' 
+                          : 'text-gray-300 hover:text-red-400'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
                 
                 {/* Mobile Social Links */}
                 <div className="flex items-center space-x-4 pt-4 border-t border-gray-800">
