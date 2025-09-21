@@ -8,7 +8,7 @@ export const personalInfo = {
   email: "avinashreddy112295@gmail.com",
   linkedin: "linkedin.com/in/avinash-reddy-139380273",
   github: "github.com/Avinash3625",
-  profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+  profileImage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23111827'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23ef4444' font-family='Arial,sans-serif' font-size='24' font-weight='bold'%3EYour Photo Here%3C/text%3E%3Ctext x='200' y='230' text-anchor='middle' fill='%239ca3af' font-family='Arial,sans-serif' font-size='14'%3EReplace with actual image%3C/text%3E%3C/svg%3E",
   summary: "Aspiring Machine Learning Engineer graduating June 2025 (B.Tech, AI & ML specialization) with hands-on experience in NLP, classification models, and computer vision projects. Built and deployed ML prototypes, collaborated with mentors, and delivered measurable model performance improvements. Seeking entry-level ML/NLP/Data Science roles in product-focused teams."
 };
 
