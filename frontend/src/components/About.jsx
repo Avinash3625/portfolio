@@ -34,7 +34,9 @@ const About = () => {
             <div className="space-y-8">
               
               {/* About Description */}
-              <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-8 
+                   shadow-lg shadow-black/30 relative
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/5 before:via-transparent before:to-white/2 before:pointer-events-none">
                 <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
                   <Target className="text-red-400" size={24} />
                   My Story
@@ -50,7 +52,9 @@ const About = () => {
               </div>
 
               {/* Contact Info */}
-              <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-8 
+                   shadow-lg shadow-black/30 relative
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/5 before:via-transparent before:to-white/2 before:pointer-events-none">
                 <h3 className="text-2xl font-bold text-white mb-6">Contact Info</h3>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
@@ -101,7 +105,9 @@ const About = () => {
             <div className="space-y-8">
               
               {/* Key Achievements */}
-              <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-8 
+                   shadow-lg shadow-black/30 relative
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/5 before:via-transparent before:to-white/2 before:pointer-events-none">
                 <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
                   <Award className="text-red-400" size={24} />
                   Key Achievements
@@ -142,7 +148,9 @@ const About = () => {
               </div>
 
               {/* Education Highlight */}
-              <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-8 
+                   shadow-lg shadow-black/30 relative
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/5 before:via-transparent before:to-white/2 before:pointer-events-none">
                 <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
                   <Calendar className="text-red-400" size={24} />
                   Education
@@ -158,7 +166,9 @@ const About = () => {
               </div>
 
               {/* Languages & Interests */}
-              <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-8 
+                   shadow-lg shadow-black/30 relative
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/5 before:via-transparent before:to-white/2 before:pointer-events-none">
                 <h3 className="text-2xl font-bold text-white mb-6">Languages & Interests</h3>
                 <div className="space-y-4">
                   <div>
