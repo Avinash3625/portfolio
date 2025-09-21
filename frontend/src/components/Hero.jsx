@@ -51,7 +51,7 @@ const Hero = () => {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
             }`}>
               
-              <div className="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-6 border border-red-500/30">
+              <div className="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-8 border border-red-500/30">
                 <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                 Available for opportunities
               </div>
