@@ -60,7 +60,9 @@ const Skills = () => {
             {skillCategories.map((category, index) => (
               <div 
                 key={index}
-                className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8 hover:border-gray-700/50 transition-all duration-300"
+                className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-8 
+                   shadow-lg shadow-black/30 relative hover:shadow-xl hover:shadow-black/40 transition-all duration-300
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/8 before:via-transparent before:to-white/3 before:pointer-events-none"
               >
                 
                 {/* Category Header */}
