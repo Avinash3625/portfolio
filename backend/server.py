@@ -1,75 +1,86 @@
-from fastapi import FastAPI, APIRouter
-from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
-from pathlib import Path
-from pydantic import BaseModel, Field
-from typing import List
 import uuid
 from datetime import datetime
+from typing import List, Deque
+from collections import deque
 
+from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
+# --- CONFIGURATION ---
+# Configure logging to track server activity
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger("PortfolioBackend")
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+# --- DATA STORAGE ---
+# Robustness Feature: Use a deque (double-ended queue) with a max length.
+# This automatically discards old data when new data arrives, preventing memory leaks.
+# It acts like a "Ring Buffer" keeping only the last 100 entries.
+fake_db: Deque[dict] = deque(maxlen=100)
 
-# Create the main app without a prefix
-app = FastAPI()
-
-# Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
-
-
-# Define Models
-class StatusCheck(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-
+# --- MODELS ---
 class StatusCheckCreate(BaseModel):
     client_name: str
 
-# Add your routes to the router instead of directly to app
-@api_router.get("/")
-async def root():
-    return {"message": "Hello World"}
+class StatusCheck(BaseModel):
+    id: str
+    client_name: str
+    timestamp: datetime
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.dict()
-    status_obj = StatusCheck(**status_dict)
-    _ = await db.status_checks.insert_one(status_obj.dict())
-    return status_obj
+# --- APP SETUP ---
+app = FastAPI(title="Portfolio API", version="1.0.0")
+api_router = APIRouter(prefix="/api")
+
+# --- ROUTES ---
+
+@app.get("/")
+async def health_check():
+    """Simple health check to verify the server is running."""
+    return {"status": "online", "message": "Backend is operational"}
 
 @api_router.get("/status", response_model=List[StatusCheck])
 async def get_status_checks():
-    status_checks = await db.status_checks.find().to_list(1000)
-    return [StatusCheck(**status_check) for status_check in status_checks]
+    """Retrieve the last 100 status checks."""
+    # Convert deque to list for the response
+    return list(fake_db)
 
-# Include the router in the main app
+@api_router.post("/status", response_model=StatusCheck)
+async def create_status_check(input_data: StatusCheckCreate):
+    """Create a new status entry."""
+    try:
+        # Create the new record
+        new_entry = StatusCheck(
+            id=str(uuid.uuid4()),
+            client_name=input_data.client_name,
+            timestamp=datetime.utcnow()
+        )
+        
+        # Save to memory (Safe due to deque's maxlen)
+        fake_db.append(new_entry.dict())
+        
+        logger.info(f"New status check from: {input_data.client_name}")
+        return new_entry
+        
+    except Exception as e:
+        logger.error(f"Error creating status check: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+# --- FINAL SETUP ---
 app.include_router(api_router)
+
+# Robust CORS Setup
+# This allows your specific Vercel frontend to talk to this backend.
+origins = os.environ.get('CORS_ORIGINS', '*').split(',')
 
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=origins,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
