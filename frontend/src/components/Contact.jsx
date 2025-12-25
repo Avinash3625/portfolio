@@ -153,10 +153,16 @@ const Contact = () => {
                     Send Message
                   </a>
                   
-                  <button className="border border-gray-600 hover:border-red-500 text-gray-300 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2">
-                    <Download size={18} />
-                    Download Resume
-                  </button>
+<a 
+  href="/Seelam_Avinash_Reddy_Resume.pdf" 
+  download="Seelam_Avinash_Reddy_Resume.pdf" 
+  target="_blank"
+  rel="noopener noreferrer"
+  className="border border-gray-600 hover:border-red-500 text-gray-300 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2"
+>
+  <Download size={18} />
+  Download Resume
+</a>
                 </div>
               </div>
 
