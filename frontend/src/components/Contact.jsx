@@ -1,204 +1,206 @@
-import React from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Send, Download } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { personalInfo } from '../data/mock';
+import { motion } from 'framer-motion';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formStatus, setFormStatus] = useState('idle');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('sending');
+
+    try {
+      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setFormStatus('idle'), 5000);
+      } else {
+        window.location.href = `mailto:${personalInfo.email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
+        setFormStatus('idle');
+      }
+    } catch {
+      window.location.href = `mailto:${personalInfo.email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
+      setFormStatus('idle');
+    }
+  };
+
   return (
-    <section id="contact" className="py-20 bg-gray-950 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
-      </div>
+    <section id="contact" className="py-24 bg-gray-950">
+      <div className="container mx-auto px-6">
+        <div className="max-w-5xl mx-auto">
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <Send size={16} />
-              Let's Connect
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Get In <span className="text-red-400">Touch</span>
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5 }}
+            className="mb-12"
+          >
+            <p className="text-red-500 text-sm font-medium tracking-wider uppercase mb-3">Contact</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Get in Touch
             </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Ready to collaborate on exciting ML projects or discuss opportunities
+            <p className="text-gray-500 max-w-2xl">
+              Interested in working together? Feel free to reach out.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            
-            {/* Contact Information */}
-            <div className="space-y-8">
-              
-              {/* Contact Cards */}
-              <div className="space-y-6">
-                
-                {/* Email */}
-                <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-6 
-                     shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-red-500/20 transition-all duration-200 group relative
-                     before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/8 before:via-transparent before:to-white/3 before:pointer-events-none">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
-                      <Mail className="text-red-400" size={20} />
+          <div className="grid lg:grid-cols-5 gap-8">
+
+            {/* Left — Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5 }}
+              className="lg:col-span-2 space-y-8"
+            >
+              <div className="bg-gray-900/40 border border-gray-800/50 rounded-xl p-7">
+                <div className="space-y-5">
+                  {[
+                    { icon: Mail, label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
+                    { icon: Phone, label: "Phone", value: personalInfo.phone, href: `tel:${personalInfo.phone}` },
+                    { icon: MapPin, label: "Location", value: personalInfo.location }
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-3">
+                      <div className="w-9 h-9 bg-gray-800/60 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <item.icon className="text-gray-400" size={16} />
+                      </div>
+                      <div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wider">{item.label}</div>
+                        {item.href ? (
+                          <a href={item.href} className="text-gray-300 hover:text-red-400 transition-colors text-sm">{item.value}</a>
+                        ) : (
+                          <div className="text-gray-300 text-sm">{item.value}</div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-white font-semibold mb-1">Email</h3>
-                      <a 
-                        href={`mailto:${personalInfo.email}`}
-                        className="text-gray-400 hover:text-red-400 transition-colors duration-200"
-                      >
-                        {personalInfo.email}
-                      </a>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-
-                {/* Phone */}
-                <div className="bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl p-6 
-                     shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-red-500/20 transition-all duration-200 group relative
-                     before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/8 before:via-transparent before:to-white/3 before:pointer-events-none">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
-                      <Phone className="text-red-400" size={20} />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-white font-semibold mb-1">Phone</h3>
-                      <a 
-                        href={`tel:${personalInfo.phone}`}
-                        className="text-gray-400 hover:text-red-400 transition-colors duration-200"
-                      >
-                        {personalInfo.phone}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Location */}
-                <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
-                      <MapPin className="text-red-400" size={20} />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-white font-semibold mb-1">Location</h3>
-                      <p className="text-gray-400">{personalInfo.location}</p>
-                    </div>
-                  </div>
-                </div>
-
               </div>
 
-              {/* Social Links */}
-              <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-white mb-6">Connect with me</h3>
-                
-                <div className="space-y-4">
-                  {/* GitHub */}
-                  <a 
-                    href={`https://${personalInfo.github}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-all duration-200 group"
-                  >
-                    <Github className="text-gray-400 group-hover:text-white" size={24} />
+              {/* Social */}
+              <div>
+                <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Connect</div>
+                <div className="flex gap-2">
+                  {[
+                    { icon: Github, href: `https://${personalInfo.github}`, label: "GitHub" },
+                    { icon: Linkedin, href: `https://${personalInfo.linkedin}`, label: "LinkedIn" }
+                  ].map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-9 h-9 bg-gray-800/60 rounded-lg flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-700/60 transition-colors duration-150"
+                      aria-label={social.label}
+                    >
+                      <social.icon size={16} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right — Form */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="lg:col-span-3"
+            >
+              <div className="bg-gray-900/40 border border-gray-800/50 rounded-xl p-7">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <div className="text-white font-medium">GitHub</div>
-                      <div className="text-gray-400 text-sm">{personalInfo.github}</div>
+                      <label htmlFor="name" className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Name</label>
+                      <input
+                        type="text" id="name" name="name"
+                        value={formData.name} onChange={handleChange} required
+                        className="w-full px-4 py-2.5 bg-gray-800/40 border border-gray-700/40 rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-gray-600 transition-colors duration-150"
+                        placeholder="Your name"
+                      />
                     </div>
-                  </a>
-
-                  {/* LinkedIn */}
-                  <a 
-                    href={`https://${personalInfo.linkedin}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-all duration-200 group"
-                  >
-                    <Linkedin className="text-gray-400 group-hover:text-blue-400" size={24} />
                     <div>
-                      <div className="text-white font-medium">LinkedIn</div>
-                      <div className="text-gray-400 text-sm">{personalInfo.linkedin}</div>
+                      <label htmlFor="email" className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Email</label>
+                      <input
+                        type="email" id="email" name="email"
+                        value={formData.email} onChange={handleChange} required
+                        className="w-full px-4 py-2.5 bg-gray-800/40 border border-gray-700/40 rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-gray-600 transition-colors duration-150"
+                        placeholder="your@email.com"
+                      />
                     </div>
-                  </a>
-                </div>
+                  </div>
 
-              </div>
+                  <div>
+                    <label htmlFor="subject" className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Subject</label>
+                    <input
+                      type="text" id="subject" name="subject"
+                      value={formData.subject} onChange={handleChange} required
+                      className="w-full px-4 py-2.5 bg-gray-800/40 border border-gray-700/40 rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-gray-600 transition-colors duration-150"
+                      placeholder="Project inquiry"
+                    />
+                  </div>
 
-            </div>
+                  <div>
+                    <label htmlFor="message" className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Message</label>
+                    <textarea
+                      id="message" name="message"
+                      value={formData.message} onChange={handleChange} required rows="4"
+                      className="w-full px-4 py-2.5 bg-gray-800/40 border border-gray-700/40 rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-gray-600 transition-colors duration-150 resize-none"
+                      placeholder="Tell me about your project..."
+                    />
+                  </div>
 
-            {/* Call to Action */}
-            <div className="space-y-8">
-              
-              {/* Availability Status */}
-              <div className="bg-gradient-to-r from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 font-medium">Available for Opportunities</span>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Let's Build Something Amazing Together!</h3>
-                <p className="text-gray-300 mb-6">
-                  I'm actively seeking entry-level positions in Machine Learning, NLP, and Data Science. 
-                  Whether it's a full-time role, internship, or exciting project collaboration, I'd love to hear from you!
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a 
-                    href={`mailto:${personalInfo.email}?subject=Opportunity Discussion&body=Hi Avinash, I'd like to discuss a potential opportunity with you.`}
-                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 hover:shadow-lg hover:shadow-red-500/25 flex items-center justify-center gap-2"
+                  <button
+                    type="submit"
+                    disabled={formStatus === 'sending'}
+                    className="inline-flex items-center justify-center gap-2 w-full bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white px-6 py-2.5 rounded-lg font-medium text-sm transition-colors duration-150"
                   >
-                    <Send size={18} />
-                    Send Message
-                  </a>
-                  
-<a 
-  href="/Seelam_Avinash_Reddy_Resume.pdf" 
-  download="Seelam_Avinash_Reddy_Resume.pdf" 
-  target="_blank"
-  rel="noopener noreferrer"
-  className="border border-gray-600 hover:border-red-500 text-gray-300 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2"
->
-  <Download size={18} />
-  Download Resume
-</a>
-                </div>
+                    {formStatus === 'sending' ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={15} />
+                        Send Message
+                      </>
+                    )}
+                  </button>
+
+                  {formStatus === 'success' && (
+                    <div className="flex items-center gap-2 text-green-400 bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-sm">
+                      <CheckCircle size={16} />
+                      Message sent successfully!
+                    </div>
+                  )}
+                  {formStatus === 'error' && (
+                    <div className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-sm">
+                      <AlertCircle size={16} />
+                      Something went wrong. Please try again.
+                    </div>
+                  )}
+                </form>
               </div>
-
-              {/* Quick Facts */}
-              <div className="bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-white mb-6">Quick Facts</h3>
-                
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Graduation</span>
-                    <span className="text-white font-medium">June 2025</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Specialization</span>
-                    <span className="text-white font-medium">AI & ML</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Experience</span>
-                    <span className="text-white font-medium">ML Projects + Internship</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Preferred Role</span>
-                    <span className="text-white font-medium">ML Engineer</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Location</span>
-                    <span className="text-white font-medium">Open to relocate</span>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
+            </motion.div>
 
           </div>
-
         </div>
       </div>
     </section>

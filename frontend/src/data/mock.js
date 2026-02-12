@@ -1,41 +1,26 @@
-// Mock data for Seelam Avinash Reddy's Portfolio
+// Data for Seelam Avinash Reddy's Portfolio
 
 export const personalInfo = {
   name: "Seelam Avinash Reddy",
-  title: "Machine Learning Engineer",
-  location: "Hyderabad, KPHB",
+  title: "AI / Machine Learning Engineer",
+  location: "Hyderabad, Telangana",
   phone: "+91 8919689676",
   email: "avinashreddy112295@gmail.com",
   linkedin: "linkedin.com/in/avinash-reddy-139380273",
   github: "github.com/Avinash3625",
-  profileImage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ef4444;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23dc2626;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='%23111827'/%3E%3Ccircle cx='200' cy='160' r='50' fill='url(%23grad1)'/%3E%3Crect x='150' y='240' width='100' height='60' rx='8' fill='url(%23grad1)'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%23ffffff' font-family='monospace' font-size='20' font-weight='bold'%3ESAR%3C/text%3E%3Ctext x='200' y='350' text-anchor='middle' fill='%23ef4444' font-family='Arial,sans-serif' font-size='12'%3EML Engineer%3C/text%3E%3C/svg%3E",
-  summary: "Aspiring Machine Learning Engineer graduating June 2025 (B.Tech, AI & ML specialization) with hands-on experience in NLP, classification models, and computer vision projects. Built and deployed ML prototypes, collaborated with mentors, and delivered measurable model performance improvements. Seeking entry-level ML/NLP/Data Science roles in product-focused teams."
+  // TODO: Replace with your real headshot photo placed in public/ folder
+  profileImage: "/profile.jpg",
+  summary: "AI / Machine Learning Engineer (B.Tech, AI & ML) with expertise in supervised learning, NLP, and computer vision. Demonstrated experience through production-ready internship projects achieving 90%+ accuracy. Proficient in building end-to-end ML pipelines (preprocessing, feature engineering, deployment) and MLOps workflows."
 };
 
 export const education = [
   {
     id: 1,
-    degree: "Bachelor of Technology (Computer Science & Engineering — AI & ML)",
+    degree: "Bachelor of Technology (CSE — AI & ML)",
     institution: "Vellore Institute of Technology",
     duration: "Aug 2021 – Jun 2025",
-    cgpa: "7.0/10",
+    cgpa: "7.12/10",
     location: "Vellore"
-  },
-  {
-    id: 2,
-    degree: "Higher Secondary (Class 12)",
-    institution: "Delhi Public School, Vijayawada",
-    duration: "2019-2021",
-    percentage: "76.80%",
-    location: "Vijayawada"
-  },
-  {
-    id: 3,
-    degree: "Secondary (Class 10)",
-    institution: "Delhi Public School, Vijayawada", 
-    duration: "2017-2019",
-    percentage: "56.30%",
-    location: "Vijayawada"
   }
 ];
 
@@ -43,14 +28,27 @@ export const experience = [
   {
     id: 1,
     title: "Machine Learning Intern",
-    company: "EDUNET Foundation",
-    duration: "Dec 2024 – Jan 2025",
+    company: "SmartInternz",
+    duration: "Sep 2025 – Oct 2025",
     type: "Internship",
+    technologies: ["Python", "Scikit-learn", "Streamlit", "Random Forest", "SVM", "Logistic Regression"],
     achievements: [
-      "Built an SMS spam-detection pipeline using NLP preprocessing (tokenization, normalization) and TF-IDF feature engineering",
-      "Developed and tuned SVM and Multinomial Naive Bayes classifiers with scikit-learn; evaluated using precision, recall and F1-score and achieved ~90% accuracy",
-      "Addressed class imbalance and applied hyperparameter tuning with cross-validation to improve model robustness",
-      "Packaged a Streamlit demo for stakeholders and documented methodology and evaluation to support deployment decisions"
+      "Engineered 'Anemia Sense', a clinical diagnostic pipeline using 8 blood biomarkers",
+      "Optimized classification models (Logistic Regression, Random Forest, SVM) achieving 91% accuracy and 0.93 AUC",
+      "Deployed a real-time clinical UI on Streamlit for decision support"
+    ]
+  },
+  {
+    id: 2,
+    title: "SMS Spam Detection using ML Intern",
+    company: "Edunet",
+    duration: "Mar 2023 – May 2023",
+    type: "Internship",
+    technologies: ["Python", "NLP", "NLTK", "TF-IDF", "SVM", "Naive Bayes", "SMOTE", "Streamlit"],
+    achievements: [
+      "Developed an NLP system for spam classification with TF-IDF and NLTK",
+      "Achieved 90% accuracy using SVM and Naive Bayes; mitigated class imbalance using SMOTE",
+      "Deployed a Streamlit app with real-time classification and confidence scores"
     ]
   }
 ];
@@ -58,47 +56,60 @@ export const experience = [
 export const projects = [
   {
     id: 1,
-    title: "Finding Water Index Value using ML",
-    duration: "Oct 2022",
-    description: "Developed a multi-output regression approach for water quality and availability. Used explainable AI (SHAP/LIME) to surface key features and implemented anomaly detection for early warnings.",
-    technologies: ["Python", "Scikit-learn", "SHAP", "LIME", "Pandas", "NumPy"],
-    category: "Machine Learning"
+    title: "Anemia Sense",
+    duration: "Sep 2025",
+    description: "Flask-based clinical diagnostic app using 8 blood biomarkers. Implemented model serialization with pickle and comprehensive model evaluation for Logistic Regression, Random Forest, and SVM classifiers achieving 91% accuracy.",
+    technologies: ["Python", "Flask", "Scikit-learn", "Pickle", "Streamlit"],
+    category: "Machine Learning",
+    github: "https://github.com/Avinash3625/Anemia-Sense"
   },
   {
     id: 2,
-    title: "Music Recommendation System",
-    duration: "Jul 2024", 
-    description: "Implemented a hybrid recommendation system combining collaborative filtering and content-based methods to improve relevance. Addressed cold-start with demographic signals and integrated contextual inputs (time, mood).",
-    technologies: ["Python", "Collaborative Filtering", "Content-Based Filtering", "Pandas", "NumPy"],
-    category: "Recommendation System"
+    title: "Farm Management using Drones",
+    duration: "Mar 2024",
+    description: "CV-based crop health monitoring system using OpenCV and color space analysis. Designed a drone-based prototype leveraging computer vision to identify crop stress, enabling targeted interventions. Achieved 92% accuracy.",
+    technologies: ["Computer Vision", "OpenCV", "Python", "Color Space Analysis"],
+    category: "Computer Vision",
+    github: "https://github.com/Avinash3625"
   },
   {
     id: 3,
-    title: "Farm Management using Drones (CV & ML)",
-    duration: "Mar 2024",
-    description: "Designed a drone-based monitoring prototype leveraging computer vision to identify crop stress, enabling targeted interventions and efficient resource allocation.",
-    technologies: ["Computer Vision", "OpenCV", "Machine Learning", "Drone Technology", "Python"],
-    category: "Computer Vision"
+    title: "Music Recommendation System",
+    duration: "Jul 2023",
+    description: "Hybrid recommendation system combining SVD matrix factorization and content-based filtering. Addressed cold-start with demographic signals and integrated contextual inputs, improving relevance by 25%.",
+    technologies: ["Python", "SVD", "Collaborative Filtering", "Content-Based Filtering", "Pandas"],
+    category: "Recommendation System",
+    github: "https://github.com/Avinash3625"
+  },
+  {
+    id: 4,
+    title: "Finding Water Index Value using ML",
+    duration: "Oct 2022",
+    description: "Multi-output regression approach using Random Forest and XGBoost for water quality and availability prediction. Used SHAP for explainability and Isolation Forest for anomaly detection.",
+    technologies: ["Python", "Random Forest", "XGBoost", "SHAP", "Isolation Forest"],
+    category: "Machine Learning",
+    github: "https://github.com/Avinash3625"
   }
 ];
 
 export const skills = {
   programming: ["Python", "SQL", "Git"],
-  libraries: ["Scikit-learn", "Pandas", "NumPy", "OpenCV"],
-  ml: ["NLP (NLTK, TF-IDF)", "Machine Learning", "Computer Vision", "Streamlit"],
-  tools: ["Microsoft Excel", "Generative AI concepts"]
+  libraries: ["Scikit-learn", "Pandas", "NumPy", "OpenCV", "Flask", "Streamlit"],
+  ml: ["Machine Learning", "NLP (NLTK, TF-IDF)", "Computer Vision", "Feature Engineering", "Model Evaluation", "MLOps", "Agentic AI"],
+  visualization: ["Matplotlib", "Seaborn"],
+  tools: ["Git", "Streamlit", "Flask"]
 };
 
 export const certifications = [
   {
     id: 1,
-    name: "Introduction to SQL",
-    issuer: "Kaggle",
-    year: "2024"
+    name: "Microsoft AI & ML Engineering Professional Certificate",
+    issuer: "Coursera",
+    year: "Dec 2024"
   },
   {
     id: 2,
-    name: "Introduction to Artificial Intelligence", 
+    name: "Introduction to Artificial Intelligence",
     issuer: "Coursera",
     year: "2024"
   }

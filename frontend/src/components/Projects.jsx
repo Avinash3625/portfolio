@@ -1,143 +1,142 @@
 import React, { useState } from 'react';
-import { Github, ExternalLink, Calendar, Tag, Code2 } from 'lucide-react';
+import { Github, ExternalLink, Calendar } from 'lucide-react';
 import { projects } from '../data/mock';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  
+
   const categories = ['All', 'Machine Learning', 'Recommendation System', 'Computer Vision'];
-  
-  const filteredProjects = activeCategory === 'All' 
-    ? projects 
+
+  const filteredProjects = activeCategory === 'All'
+    ? projects
     : projects.filter(project => project.category === activeCategory);
 
   return (
-    <section id="projects" className="py-20 bg-black relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
-      </div>
+    <section id="projects" className="py-24 bg-gray-900/50">
+      <div className="container mx-auto px-6">
+        <div className="max-w-5xl mx-auto">
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <Code2 size={16} />
-              My Work
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Featured <span className="text-red-400">Projects</span>
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5 }}
+            className="mb-12"
+          >
+            <p className="text-red-500 text-sm font-medium tracking-wider uppercase mb-3">Portfolio</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Featured Projects
             </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Innovative solutions across machine learning, computer vision, and data science
+            <p className="text-gray-500 max-w-2xl">
+              A selection of projects spanning machine learning, computer vision, and data science.
             </p>
-          </div>
+          </motion.div>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {categories.map((category) => (
+          {/* Filters */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-wrap gap-2 mb-10"
+          >
+            {categories.map((cat) => (
               <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-200 ${
-                  activeCategory === category
-                    ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
-                    : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white'
-                }`}
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-150 ${activeCategory === cat
+                    ? 'bg-red-500 text-white'
+                    : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-800'
+                  }`}
               >
-                {category}
+                {cat}
               </button>
             ))}
-          </div>
+          </motion.div>
 
-          {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
-              <div 
-                key={project.id}
-                className="group bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-gray-900/20 backdrop-blur-sm border border-gray-600/20 rounded-2xl overflow-hidden 
-                   shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 transform hover:-translate-y-2 relative
-                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/8 before:via-transparent before:to-white/3 before:pointer-events-none"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                
-                {/* Project Image Placeholder */}
-                <div className="h-48 bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-6xl font-mono text-gray-600 group-hover:text-red-400 transition-colors duration-300">
-                      {project.category === 'Machine Learning' && '🤖'}
-                      {project.category === 'Recommendation System' && '🎵'}
-                      {project.category === 'Computer Vision' && '👁️'}
-                    </div>
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-medium">
-                      {project.category}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-
-                {/* Project Content */}
-                <div className="p-6">
-                  
-                  {/* Project Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors duration-200 mb-2">
-                        {project.title}
-                      </h3>
-                      <div className="flex items-center gap-2 text-gray-500 text-sm">
-                        <Calendar size={14} />
-                        <span>{project.duration}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="mb-6">
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.slice(0, 3).map((tech) => (
-                        <span 
-                          key={tech}
-                          className="bg-gray-800/50 text-gray-300 px-2 py-1 rounded text-xs"
+          {/* Project Cards */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gray-900/40 border border-gray-800/50 rounded-xl p-7 hover:border-gray-700/60 transition-colors duration-200 group"
+                >
+                  {/* Title & Links */}
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-white group-hover:text-red-400 transition-colors duration-200">
+                      {project.title}
+                    </h3>
+                    <div className="flex gap-1.5 ml-4 flex-shrink-0">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-8 h-8 bg-gray-800/60 rounded-md flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-700/60 transition-colors duration-150"
                         >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.technologies.length > 3 && (
-                        <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">
-                          +{project.technologies.length - 3}
-                        </span>
+                          <Github size={15} />
+                        </a>
+                      )}
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-8 h-8 bg-gray-800/60 rounded-md flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-700/60 transition-colors duration-150"
+                        >
+                          <ExternalLink size={15} />
+                        </a>
                       )}
                     </div>
                   </div>
 
-                  {/* Project Status */}
-                  <div className="flex items-center gap-2 text-gray-500 text-xs">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span>Completed Project</span>
+                  <div className="flex items-center gap-1.5 text-gray-500 text-xs mb-4">
+                    <Calendar size={12} />
+                    {project.duration}
                   </div>
 
-                </div>
-              </div>
-            ))}
+                  <p className="text-gray-400 text-sm leading-relaxed mb-5">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.technologies.map((tech) => (
+                      <span key={tech} className="text-xs text-gray-500 bg-gray-800/50 px-2.5 py-1 rounded-md border border-gray-700/30">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
-          {/* View All Projects */}
-          <div className="text-center mt-12">
-            <button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 hover:shadow-lg hover:shadow-red-500/25">
-              View All Projects on GitHub
-            </button>
-          </div>
+          {/* GitHub link */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="text-center mt-10"
+          >
+            <a
+              href="https://github.com/Avinash3625?tab=repositories"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-red-400 text-sm font-medium transition-colors duration-200"
+            >
+              <Github size={16} />
+              View all projects on GitHub →
+            </a>
+          </motion.div>
 
         </div>
       </div>

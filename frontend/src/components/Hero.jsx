@@ -1,172 +1,182 @@
-import React, { useEffect, useState } from 'react';
-import { Download, ArrowDown, Code, Database, Brain } from 'lucide-react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Download, ArrowDown, ChevronRight } from 'lucide-react';
 import { personalInfo } from '../data/mock';
+import { motion } from 'framer-motion';
 
 const Hero = () => {
-  const [mounted, setMounted] = useState(false);
+  const [displayText, setDisplayText] = useState('');
   const [currentRole, setCurrentRole] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const roles = ["ML Engineer", "Data Scientist", "AI Developer", "Python Developer"];
 
-  useEffect(() => {
-    setMounted(true);
-    const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const scrollToAbout = () => {
-    const aboutSection = document.querySelector('#about');
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' });
+  const typeWriter = useCallback(() => {
+    const current = roles[currentRole];
+    if (!isDeleting) {
+      setDisplayText(current.substring(0, displayText.length + 1));
+      if (displayText.length === current.length) {
+        setTimeout(() => setIsDeleting(true), 2000);
+        return;
+      }
+    } else {
+      setDisplayText(current.substring(0, displayText.length - 1));
+      if (displayText.length === 0) {
+        setIsDeleting(false);
+        setCurrentRole((prev) => (prev + 1) % roles.length);
+        return;
+      }
     }
-  };
+  }, [displayText, currentRole, isDeleting, roles]);
+
+  useEffect(() => {
+    const speed = isDeleting ? 50 : 100;
+    const timer = setTimeout(typeWriter, speed);
+    return () => clearTimeout(timer);
+  }, [typeWriter, isDeleting]);
+
+  const fadeUp = (delay = 0) => ({
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }
+  });
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black pt-20">
-      {/* Background Effects */}
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 pt-20">
+      {/* Subtle background gradient */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
-      </div>
-
-      {/* Floating Icons */}
-      <div className="absolute top-20 left-10 opacity-20 animate-bounce">
-        <Code className="text-red-500" size={24} />
-      </div>
-      <div className="absolute top-32 right-16 opacity-20 animate-bounce" style={{animationDelay: '1s'}}>
-        <Database className="text-red-500" size={24} />
-      </div>
-      <div className="absolute bottom-32 left-16 opacity-20 animate-bounce" style={{animationDelay: '2s'}}>
-        <Brain className="text-red-500" size={24} />
+        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-red-500/[0.03] rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-red-500/[0.02] rounded-full blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
-            {/* Left Content */}
-            <div className={`text-left transform transition-all duration-1000 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-            }`}>
-              
-              <div className="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-8 border border-red-500/30">
-                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                Available for opportunities
-              </div>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 font-mono">
+            {/* Left — Content */}
+            <div className="text-left">
+
+              <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2 bg-gray-800/60 text-gray-400 px-4 py-1.5 rounded-full text-sm mb-8 border border-gray-700/40">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                Open to opportunities
+              </motion.div>
+
+              <motion.h1 {...fadeUp(0.1)} className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 tracking-tight leading-[1.1]">
                 Hi, I'm{' '}
-                <span className="bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent">
-                  Avinash
+                <span className="text-red-500">Avinash</span>
+              </motion.h1>
+
+              <motion.div {...fadeUp(0.2)} className="text-xl md:text-2xl text-gray-400 mb-6 h-10 flex items-center font-light">
+                <span className="mr-2">A passionate</span>
+                <span className="text-red-400 font-medium" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  {displayText}
                 </span>
-              </h1>
+                <span className="animate-pulse ml-0.5 text-red-400">|</span>
+              </motion.div>
 
-              <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center">
-                <span className="mr-3">A passionate</span>
-                <span className="text-red-400 font-semibold min-w-fit">
-                  {roles[currentRole]}
-                </span>
-                <span className="animate-pulse ml-1">|</span>
-              </div>
+              <motion.p {...fadeUp(0.3)} className="text-gray-500 text-lg mb-10 max-w-xl leading-relaxed">
+                {personalInfo.summary.slice(0, 180)}...
+              </motion.p>
 
-              <p className="text-lg text-gray-400 mb-8 max-w-2xl leading-relaxed">
-                {personalInfo.summary.slice(0, 200)}...
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <a 
-                  href="/Seelam_Avinash_Reddy_Resume.pdf" 
+              <motion.div {...fadeUp(0.4)} className="flex flex-col sm:flex-row gap-3">
+                <a
+                  href="/Seelam_Avinash_Reddy_Resume.pdf"
                   download="Seelam_Avinash_Reddy_Resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 hover:shadow-lg hover:shadow-red-500/25 flex items-center justify-center gap-2"
+                  className="inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                 >
-                  <Download size={20} />
+                  <Download size={18} />
                   Download Resume
                 </a>
-                
-                <button 
-                  onClick={scrollToAbout}
-                  className="border border-gray-600 hover:border-red-500 text-gray-300 hover:text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2"
+                <button
+                  onClick={() => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="inline-flex items-center justify-center gap-2 border border-gray-700 hover:border-gray-600 text-gray-300 hover:text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
                 >
-                  View My Work
-                  <ArrowDown size={20} />
+                  Learn More
+                  <ChevronRight size={16} />
                 </button>
-              </div>
+              </motion.div>
 
-              {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-400">3+</div>
-                  <div className="text-sm text-gray-500">Projects</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-400">90%</div>
-                  <div className="text-sm text-gray-500">ML Accuracy</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-400">2025</div>
-                  <div className="text-sm text-gray-500">Graduate</div>
-                </div>
-              </div>
+              {/* Stats — clean, understated */}
+              <motion.div {...fadeUp(0.5)} className="flex gap-10 mt-12">
+                {[
+                  { value: "4+", label: "Projects" },
+                  { value: "91%", label: "ML Accuracy" },
+                  { value: "2025", label: "Graduate" }
+                ].map((stat) => (
+                  <div key={stat.label}>
+                    <div className="text-2xl font-bold text-white">{stat.value}</div>
+                    <div className="text-sm text-gray-500">{stat.label}</div>
+                  </div>
+                ))}
+              </motion.div>
             </div>
 
-            {/* Right Content - Profile Image */}
-            <div className={`relative transform transition-all duration-1000 delay-300 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-            }`}>
+            {/* Right — Profile Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              className="flex justify-center"
+            >
               <div className="relative">
-                {/* Reflective Glass Container */}
-                <div className="relative bg-gradient-to-br from-gray-900/30 via-gray-800/20 to-gray-900/30 backdrop-blur-sm border border-gray-700/30 rounded-3xl p-8 shadow-2xl shadow-black/50 
-                     before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-white/5 before:pointer-events-none
-                     after:absolute after:inset-0 after:rounded-3xl after:bg-gradient-to-t after:from-black/20 after:via-transparent after:to-white/10 after:pointer-events-none">
-                  
-                  {/* Profile Image */}
-                  <div className="relative mx-auto w-80 h-80 rounded-2xl overflow-hidden border border-gray-600/30 
-                       shadow-inner shadow-white/20">
-                    <img 
-                      src={personalInfo.profileImage} 
-                      alt={personalInfo.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30"></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/20"></div>
+                {/* Profile Card */}
+                <div className="relative bg-gray-900/60 border border-gray-800/60 rounded-2xl p-8 backdrop-blur-sm">
+
+                  {/* Circular image with clean border */}
+                  <div className="relative mx-auto w-64 h-64 md:w-72 md:h-72 mb-6">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-500/20 to-red-600/10 p-[2px]">
+                      <div className="w-full h-full rounded-full bg-gray-900 p-[2px]">
+                        <div className="relative w-full h-full rounded-full overflow-hidden">
+                          <img
+                            src={personalInfo.profileImage}
+                            alt={personalInfo.name}
+                            className="w-full h-full object-cover object-top"
+                            style={{ filter: 'contrast(1.05) brightness(0.92)' }}
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.nextSibling.style.display = 'flex';
+                            }}
+                          />
+                          <div className="w-full h-full bg-gradient-to-br from-red-500 to-red-700 items-center justify-center text-6xl font-bold text-white hidden rounded-full" style={{ display: 'none' }}>
+                            SAR
+                          </div>
+                          {/* Subtle overlay to blend with dark theme */}
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-t from-gray-900/40 via-transparent to-transparent" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Floating Badge */}
-                  <div className="absolute -top-4 -right-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                    B.Tech AI & ML
+                  {/* Name & title under image */}
+                  <div className="text-center">
+                    <h2 className="text-xl font-semibold text-white">{personalInfo.name}</h2>
+                    <p className="text-red-400 text-sm mt-1">B.Tech — AI & Machine Learning</p>
+                    <p className="text-gray-500 text-sm mt-1">{personalInfo.location}</p>
                   </div>
 
-                  {/* Tech Stack Badges */}
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
-                    <div className="bg-gray-800/80 backdrop-blur-sm text-gray-300 px-3 py-1 rounded-full text-xs">
-                      Python
-                    </div>
-                    <div className="bg-gray-800/80 backdrop-blur-sm text-gray-300 px-3 py-1 rounded-full text-xs">
-                      ML
-                    </div>
-                    <div className="bg-gray-800/80 backdrop-blur-sm text-gray-300 px-3 py-1 rounded-full text-xs">
-                      NLP
-                    </div>
+                  {/* Quick tech tags */}
+                  <div className="flex justify-center gap-2 mt-5">
+                    {["Python", "ML", "NLP", "CV"].map((tech) => (
+                      <span key={tech} className="text-xs text-gray-500 bg-gray-800/60 px-3 py-1 rounded-full border border-gray-700/40">
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                 </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute -z-10 top-4 left-4 w-full h-full bg-red-500/10 rounded-3xl"></div>
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <ArrowDown className="text-gray-400" size={24} />
-      </div>
+      {/* Scroll indicator */}
+      <motion.div
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <ArrowDown className="text-gray-600" size={20} />
+      </motion.div>
     </section>
   );
 };

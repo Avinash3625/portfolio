@@ -1,114 +1,88 @@
 import React from 'react';
-import { Briefcase, Calendar, MapPin, CheckCircle } from 'lucide-react';
+import { Briefcase, Calendar, CheckCircle } from 'lucide-react';
 import { experience } from '../data/mock';
+import { motion } from 'framer-motion';
+
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-60px' },
+  transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }
+};
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-20 bg-gray-950 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
-      </div>
+    <section id="experience" className="py-24 bg-gray-950">
+      <div className="container mx-auto px-6">
+        <div className="max-w-5xl mx-auto">
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <Briefcase size={16} />
-              My Journey
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Work <span className="text-red-400">Experience</span>
+          {/* Header */}
+          <motion.div {...fadeUp} className="mb-16">
+            <p className="text-red-500 text-sm font-medium tracking-wider uppercase mb-3">Experience</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              Work Experience
             </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Building real-world solutions with machine learning and AI
-            </p>
-          </div>
+          </motion.div>
 
-          {/* Experience Timeline */}
+          {/* Timeline */}
           <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-red-500 to-transparent hidden md:block"></div>
-            
-            <div className="space-y-8">
+            {/* Vertical line */}
+            <div className="absolute left-[19px] top-2 bottom-2 w-px bg-gray-800 hidden md:block" />
+
+            <div className="space-y-10">
               {experience.map((exp, index) => (
-                <div key={exp.id} className="relative">
-                  
-                  {/* Timeline Dot */}
-                  <div className="absolute left-6 w-4 h-4 bg-red-500 rounded-full border-4 border-black hidden md:block"></div>
-                  
-                  {/* Experience Card */}
-                  <div className="md:ml-16 bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl p-8 hover:border-gray-700/50 transition-all duration-300">
-                    
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.5, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="relative md:pl-14"
+                >
+                  {/* Timeline dot */}
+                  <div className="absolute left-3 top-2 w-3.5 h-3.5 bg-red-500 rounded-full border-[3px] border-gray-950 hidden md:block" />
+
+                  <div className="bg-gray-900/40 border border-gray-800/50 rounded-xl p-8 hover:border-gray-700/60 transition-colors duration-200">
                     {/* Header */}
-                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
-                      <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-white mb-2">{exp.title}</h3>
-                        <div className="flex items-center gap-4 text-gray-400 mb-2">
-                          <div className="flex items-center gap-2">
-                            <Briefcase size={16} />
-                            <span className="font-medium text-red-400">{exp.company}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Calendar size={16} />
-                            <span>{exp.duration}</span>
-                          </div>
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-5">
+                      <div>
+                        <h3 className="text-xl font-semibold text-white">{exp.title}</h3>
+                        <div className="flex items-center gap-2 text-gray-400 mt-1">
+                          <Briefcase size={14} />
+                          <span className="text-red-400 font-medium text-sm">{exp.company}</span>
+                          <span className="text-gray-600">·</span>
+                          <span className="text-sm text-gray-500">{exp.type}</span>
                         </div>
-                        <div className="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm">
-                          {exp.type}
-                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-gray-500 text-sm whitespace-nowrap">
+                        <Calendar size={13} />
+                        {exp.duration}
                       </div>
                     </div>
 
                     {/* Achievements */}
-                    <div>
-                      <h4 className="text-lg font-semibold text-white mb-4">Key Achievements</h4>
-                      <div className="space-y-3">
-                        {exp.achievements.map((achievement, achIndex) => (
-                          <div key={achIndex} className="flex items-start gap-3">
-                            <CheckCircle className="text-red-400 mt-1 flex-shrink-0" size={16} />
-                            <p className="text-gray-300 leading-relaxed">{achievement}</p>
-                          </div>
-                        ))}
-                      </div>
+                    <div className="space-y-3 mb-6">
+                      {exp.achievements.map((achievement, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <CheckCircle className="text-green-500/70 flex-shrink-0 mt-0.5" size={15} />
+                          <span className="text-gray-400 text-sm leading-relaxed">{achievement}</span>
+                        </div>
+                      ))}
                     </div>
 
-                    {/* Tech Stack */}
-                    <div className="mt-6 pt-6 border-t border-gray-800/50">
-                      <div className="flex flex-wrap gap-2">
-                        {['Python', 'NLP', 'Scikit-learn', 'TF-IDF', 'SVM', 'Streamlit'].map((tech) => (
-                          <span 
-                            key={tech}
-                            className="bg-gray-800/50 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-red-500/20 hover:text-red-400 transition-colors duration-200"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
+                    {/* Tech */}
+                    <div className="flex flex-wrap gap-2">
+                      {exp.technologies.map((tech) => (
+                        <span key={tech} className="text-xs text-gray-500 bg-gray-800/50 px-2.5 py-1 rounded-md border border-gray-700/30">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
-
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
-
-          {/* Currently Seeking */}
-          <div className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-red-500/20 to-transparent border border-red-500/30 rounded-2xl p-8 max-w-2xl mx-auto">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                <span className="text-red-400 font-medium">Currently Seeking</span>
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Entry-Level Opportunities</h3>
-              <p className="text-gray-300">
-                Looking for ML/NLP/Data Science roles in product-focused teams where I can contribute to meaningful AI solutions
-              </p>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
